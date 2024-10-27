@@ -1,9 +1,14 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Products.Data;
 using Products.Endpoints;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHealthChecks()
+    // Add a default liveness check to ensure app is responsive
+    .AddCheck("myself", () => HealthCheckResult.Unhealthy());
 
 builder.AddServiceDefaults();
 
@@ -16,6 +21,8 @@ builder.Services.AddDbContext<ProductDataContext>(options =>
 
 // Add services to the container.
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();

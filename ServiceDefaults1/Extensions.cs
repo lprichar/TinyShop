@@ -19,18 +19,18 @@ namespace Microsoft.Extensions.Hosting
         {
             builder.ConfigureOpenTelemetry();
 
-            //builder.AddDefaultHealthChecks();
+            builder.AddDefaultHealthChecks();
 
             //builder.Services.AddServiceDiscovery();
 
-            //builder.Services.ConfigureHttpClientDefaults(http =>
-            //{
-            //    // Turn on resilience by default
-            //    http.AddStandardResilienceHandler();
+            builder.Services.ConfigureHttpClientDefaults(http =>
+            {
+                // Turn on resilience by default
+                http.AddStandardResilienceHandler();
 
-            //    // Turn on service discovery by default
-            //    http.AddServiceDiscovery();
-            //});
+                //// Turn on service discovery by default
+                //http.AddServiceDiscovery();
+            });
 
             // Uncomment the following to restrict the allowed schemes for service discovery.
             // builder.Services.Configure<ServiceDiscoveryOptions>(options =>
