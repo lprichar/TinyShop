@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Products.Data;
+using Products.Endpoints;
 using Store.Components;
 using Store.Services;
 
@@ -5,19 +8,24 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-builder.Services.AddSingleton<ProductService>();
+builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<IProductApiService, ProductApiService>();
 builder.Services.AddHttpClient<ProductService>(c =>
 {
     var url = builder.Configuration["ProductEndpoint"] ?? throw new InvalidOperationException("ProductEndpoint is not set");
 
     c.BaseAddress = new(url);
 });
+builder.Services.AddDbContext<ProductDataContext>(options =>
+    options.UseInMemoryDatabase("inmemproducts"));
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 var app = builder.Build();
+
+app.CreateDbIfNotExists();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

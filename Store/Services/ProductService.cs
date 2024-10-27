@@ -1,30 +1,18 @@
 ﻿using DataEntities;
-using System.Text.Json;
+using Products.Endpoints;
 
 namespace Store.Services;
 
-public class ProductService
+public interface IProductService
 {
-    HttpClient httpClient;
-    public ProductService(HttpClient httpClient)
-    {
-        this.httpClient = httpClient;
-    }
-    public async Task<List<Product>> GetProducts()
-    {
-        List<Product>? products = null;
-        var response = await httpClient.GetAsync("/api/Product");
-        if (response.IsSuccessStatusCode)
-        {
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
+    Task<List<Product>> GetProducts();
+}
 
-            products = await response.Content.ReadFromJsonAsync(ProductSerializerContext.Default.ListProduct);
-        }
-
-        return products ?? new List<Product>();
+public class ProductService(IProductApiService productApiService) : IProductService
+{
+    public Task<List<Product>> GetProducts()
+    {
+        return productApiService.GetProducts();
     }
     
 }
