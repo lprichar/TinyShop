@@ -21,7 +21,7 @@ namespace Microsoft.Extensions.Hosting
 
             builder.AddDefaultHealthChecks();
 
-            //builder.Services.AddServiceDiscovery();
+            builder.Services.AddServiceDiscovery();
 
             builder.Services.ConfigureHttpClientDefaults(http =>
             {
@@ -29,7 +29,7 @@ namespace Microsoft.Extensions.Hosting
                 http.AddStandardResilienceHandler();
 
                 //// Turn on service discovery by default
-                //http.AddServiceDiscovery();
+                http.AddServiceDiscovery();
             });
 
             // Uncomment the following to restrict the allowed schemes for service discovery.
