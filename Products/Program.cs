@@ -12,6 +12,8 @@ builder.Services.AddHealthChecks()
 
 builder.AddServiceDefaults();
 
+builder.AddRedisOutputCache("cache");
+
 // Add services to the container.
 builder.Services.AddSingleton<RandomFailureMiddleware>();
 
@@ -23,6 +25,8 @@ builder.Services.AddDbContext<ProductDataContext>(options =>
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
+
+app.UseOutputCache();
 
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
