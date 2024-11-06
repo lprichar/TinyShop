@@ -11,6 +11,7 @@ var products = builder.AddProject<Products>("products")
     .WithReference(cache);
 
 builder.AddProject<Store>("store")
+    .WithExternalHttpEndpoints()
     .WithReference(products);
 
 builder.Build().Run();
