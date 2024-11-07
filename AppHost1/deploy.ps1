@@ -4,4 +4,9 @@
 
 # azd config set alpha.infraSynth on
 
-azd infra synth
+# azd infra synth
+
+azd provision
+azd deploy
+
+# or just azd up
